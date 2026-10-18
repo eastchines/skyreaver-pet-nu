@@ -14,22 +14,18 @@ jobs:
         with:
           python-version: "3.11"
 
-      - name: Install python dependencies
+      - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install PyQt5 pyinstaller
+          pip install PyQt5 pyinstaller==6.9.0
 
-      - name: 列出目录文件（调试用）
+      - name: Debug - List root files
         run: dir
+      - name: Debug - List images folder
+        run: dir images
 
-      - name: Build exe with PyInstaller
-        run: >
-          pyinstaller keyboard_pet.py
-          -F -w
-          --hidden-import PyQt5.QtWidgets
-          --hidden-import PyQt5.QtGui
-          --hidden-import PyQt5.QtCore
-          --add-data "*.png;."
+      - name: Build EXE
+        run: pyinstaller keyboard_pet.py -F -w --hidden-import PyQt5.QtWidgets --hidden-import PyQt5.QtGui --hidden-import PyQt5.QtCore --add-data "images;images"
 
       - name: Upload artifact
         uses: actions/upload-artifact@v4
